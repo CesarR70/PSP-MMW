@@ -8,6 +8,7 @@ A Python tool that adds metadata to MP4 videos for optimal viewing on PlayStatio
 - ✅ **Smart Episode Detection** - Extracts episode numbers from various filename formats
 - ✅ **Cover Image Detection** - Automatically finds and converts cover images
 - ✅ **PSP Thumbnail Generation** - Creates .THM files compatible with PSP
+- ✅ **PSP XMB Compatibility** - Automatically cleans up temporary files for PSP
 - ✅ **Cross-Platform** - Works on macOS, Linux, and Windows
 
 ## Features
@@ -17,7 +18,6 @@ A Python tool that adds metadata to MP4 videos for optimal viewing on PlayStatio
 - **Cover Image Detection**: Automatically finds and converts cover images to PSP thumbnails
 - **PSP Thumbnail Generation**: Creates `.THM` files compatible with PSP
 - **Smart Episode Detection**: Extracts episode numbers from various filename formats
-- **Tab Completion**: Directory input with tab completion (like terminal)
 - **Cross-Platform**: Works on macOS and Linux
 
 ## Prerequisites
@@ -72,8 +72,6 @@ The program will guide you through the process:
 2. **Content Type**: Choose between Movie (M) or TV Show (T)
 3. **TV Show Name**: If processing a TV show, enter the show name
 4. **Processing**: The program will automatically process all MP4 files
-
-**Note**: While this version doesn't have tab completion, it provides a reliable, cross-platform solution that works consistently across all operating systems.
 
 ### Example Session
 
@@ -166,6 +164,20 @@ If found, it converts the image to a PSP-compatible thumbnail (160x120 pixels) a
 - **Format**: JPEG
 - **Extension**: `.THM`
 - **Naming**: Same as video file (e.g., `movie.mp4` → `movie.THM`)
+
+## PSP XMB Compatibility
+
+The PSP's XMB (XrossMediaBar) interface is very particular about video folders. It only allows:
+- Video files (`.mp4`)
+- Thumbnail files (`.THM`)
+
+**Any other files will prevent the PSP from properly managing the folder.** The program automatically cleans up temporary files after processing to ensure PSP XMB compatibility:
+
+- Removes temporary `thumbnail.jpg` files
+- Removes original cover images (`cover.jpg`, `cover.png`, etc.)
+- Keeps only the essential `.mp4` and `.THM` files
+
+This ensures your video folders work perfectly with the PSP's file management system.
 
 ## Error Handling
 

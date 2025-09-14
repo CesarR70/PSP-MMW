@@ -250,6 +250,9 @@ class PSPMetadataWriter:
                         print(f"✗ Failed to create PSP thumbnail for {video_file.name}")
             else:
                 print(f"✗ Failed to add metadata to {video_file.name}")
+        
+        # Clean up temporary files for PSP compatibility
+        self.cleanup_for_psp(directory)
     
     def process_tv_show(self, directory: Path, show_name: str) -> None:
         """Process TV show files in the directory."""
@@ -304,6 +307,38 @@ class PSPMetadataWriter:
                         print(f"✗ Failed to create PSP thumbnail for {video_file.name}")
             else:
                 print(f"✗ Failed to add metadata to {video_file.name}")
+        
+        # Clean up temporary files for PSP compatibility
+        self.cleanup_for_psp(directory)
+    
+    def cleanup_for_psp(self, directory: Path) -> None:
+        """Clean up temporary files to ensure PSP XMB compatibility."""
+        print(f"\nCleaning up temporary files for PSP compatibility...")
+        
+        # Files to remove (temporary files that PSP XMB doesn't like)
+        files_to_remove = [
+            "thumbnail.jpg",  # Temporary thumbnail file
+            "cover.jpg", "cover.jpeg", "cover.png", "cover.bmp", "cover.gif",
+            "Cover.jpg", "Cover.jpeg", "Cover.png", "Cover.bmp", "Cover.gif",
+            "COVER.jpg", "COVER.jpeg", "COVER.png", "COVER.bmp", "COVER.gif"
+        ]
+        
+        removed_count = 0
+        for filename in files_to_remove:
+            file_path = directory / filename
+            if file_path.exists():
+                try:
+                    file_path.unlink()
+                    print(f"✓ Removed: {filename}")
+                    removed_count += 1
+                except Exception as e:
+                    print(f"✗ Failed to remove {filename}: {e}")
+        
+        if removed_count > 0:
+            print(f"✓ Cleaned up {removed_count} temporary file(s)")
+            print("✓ Directory is now PSP XMB compatible")
+        else:
+            print("✓ No temporary files to clean up")
     
     def run(self) -> None:
         """Main program execution."""
